@@ -100,10 +100,46 @@ h2 { font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 800; line-height: 1.2; le
 .mobile-dropdown a:last-child { border-bottom: none; }
 .mobile-dropdown svg { width: 22px; height: 22px; fill: var(--base); }
 
+/* Clases añadidas para el logo dinámico y contenedor derecho */
+.mobile-logo { display: none; }
+.desktop-logo { display: inline; }
+.right-nav-container { display: flex; gap: 20px; align-items: center; }
+
 @media (max-width: 1024px) { 
-  .nav-logo { display: none; } /* Ocultar "ElPsiKikólogo" dejando solo el logo en móvil */
+  .desktop-logo { display: none; }
+  .mobile-logo { display: inline; }
+  .nav-logo { display: block; font-size: 1.15rem; } /* Se muestra el logo y la firma adaptada en móvil */
   .nav-links, .social-icons.nav-social { display: none; } 
-  .mobile-menu-btn { display: block; position: absolute; left: 50%; transform: translateX(-50%); font-weight: 700; cursor: pointer; color: var(--base); font-size: 1.1rem; width: max-content; text-align: center;}
+  
+  /* Sistema de flex perfecto de 3 columnas para centrado matemático */
+  .nav-brand { flex: 1; flex-basis: 0; display: flex; justify-content: flex-start; align-items: center;}
+  
+  /* Botón móvil sin position:absolute para solucionar el bug de click y asegurar centrado */
+  .mobile-menu-btn { 
+    display: flex; 
+    flex: 1; 
+    flex-basis: 0;
+    justify-content: center;
+    align-items: center;
+    position: static; 
+    transform: none; 
+    font-weight: 700; 
+    cursor: pointer; 
+    color: var(--base); 
+    font-size: 1.1rem; 
+    text-align: center;
+    padding: 10px; /* Incremento área táctil */
+    user-select: none;
+  }
+
+  .right-nav-container { 
+    flex: 1; 
+    flex-basis: 0; 
+    display: flex; 
+    justify-content: flex-end; 
+    gap: 0; 
+  }
+  
   .contact-text-full { display: none; }
   .contact-text-short { display: inline; }
 }
@@ -527,7 +563,10 @@ textarea.form-input { resize: vertical; min-height: 120px; }
 <nav class="navbar">
 <div class="nav-brand" onclick="volverInicio(true)">
 <img alt="ElPsiKikólogo Logo" class="nav-logo-img" src="LOGO.png"/>
-<div class="nav-logo">ElPsiKikólogo.</div>
+<div class="nav-logo">
+    <span class="desktop-logo">ElPsiKikólogo.</span>
+    <span class="mobile-logo">EPsiK.</span>
+</div>
 </div>
 
 <!-- Nuevo botón central de Menú (Solo móvil) -->
@@ -541,7 +580,7 @@ textarea.form-input { resize: vertical; min-height: 120px; }
 <a href="#faqs" onclick="document.getElementById('faqs').scrollIntoView({behavior: 'smooth'}); return false;">FAQs</a>
 </div>
 
-<div style="display: flex; gap: 20px; align-items: center;">
+<div class="right-nav-container">
   <div class="social-icons nav-social">
     <a href="https://es.linkedin.com/in/francisco-mu%C3%B1oz-alba" target="_blank" aria-label="LinkedIn">
       <svg class="social-svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
