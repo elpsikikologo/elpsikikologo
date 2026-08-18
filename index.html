@@ -1835,4 +1835,54 @@ textarea.form-input { resize: vertical; min-height: 120px; }
       cardsContainer.innerHTML = htmlString;
       cardsContainer.style.opacity = 1;
     }, 250);
-  
+  }
+
+  function renderCardsById(id) {
+    const data = pricingData.find(d => d.id === id);
+    if(data) renderCards(data);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    setupCustomSelect();
+    startWizard();
+  });
+
+  function triggerBooking() {
+    window.open('http://wa.me/34711201174', '_blank');
+  }
+
+  /* ==================== ENVÍO DE FORMULARIO A GOOGLE SHEETS ==================== */
+  function enviarFormularioGoogle(e) {
+    e.preventDefault();
+    const form = e.target;
+    const btn = document.getElementById('submit-btn-form');
+    const originalText = btn.innerText;
+    btn.innerText = 'Enviando datos...';
+
+    const formData = new FormData(form);
+    
+    // IMPORTANTE: Debes reemplazar esta URL por la que generes en tu Google Apps Script
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbzV2AA9YZ8LAh0uaxuHFqgCfyIE8vcFL_SBwYBlRySFVhq56_hxQq_PDFoC98C1VWA6/exec';
+
+    fetch(scriptURL, { method: 'POST', body: formData})
+      .then(response => {
+        btn.innerText = '¡Mensaje Enviado con Éxito!';
+        btn.style.backgroundColor = 'var(--green-ok)';
+        form.reset();
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.backgroundColor = 'var(--base)';
+        }, 4000);
+      })
+      .catch(error => {
+        console.error('Error!', error.message);
+        btn.innerText = 'Error al enviar. Intenta por WhatsApp.';
+        btn.style.backgroundColor = '#e11d48';
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.style.backgroundColor = 'var(--base)';
+        }, 4000);
+      });
+  }
+</script>
+</body></html>
